@@ -1,4 +1,4 @@
-const apiKey = localStorage.get("OPENAI_API_KEY");
+const apiKey = localStorage.getItem("OPENAI_API_KEY");
 
 export default async function func({
   query,

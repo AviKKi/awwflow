@@ -59,7 +59,13 @@ function OpenWorkflowDialog(props: any) {
         </DialogHeader>
         <div>
           {props.workflows.map((w) => (
-            <li onClick={()=>props.onOpen(w)} className="cursor-pointer" key={w}>{w}</li>
+            <li
+              onClick={() => props.onOpen(w)}
+              className="cursor-pointer"
+              key={w}
+            >
+              {w}
+            </li>
           ))}
         </div>
       </DialogContent>
@@ -80,7 +86,9 @@ export default function SaveButton() {
     if (!savedWorkflows) {
       savedWorkflows = [projectName];
     } else {
-      savedWorkflows = Array.from(new Set([...JSON.parse(savedWorkflows), projectName]));
+      savedWorkflows = Array.from(
+        new Set([...JSON.parse(savedWorkflows), projectName])
+      );
     }
     localStorage.setItem("savedWorkflows", JSON.stringify(savedWorkflows));
     localStorage.setItem(
@@ -90,13 +98,17 @@ export default function SaveButton() {
   }
 
   function handleOpenButtonClick() {
-    setSavedWorkflows(JSON.parse(localStorage.getItem("savedWorkflows")) || []);
-    setShowOpenDialog(true)
+    const graph = localStorage.getItem("savedWorkflows");
+    setSavedWorkflows(graph ? JSON.parse(graph) : []);
+    setShowOpenDialog(true);
   }
-  function handleOpen(workflowName: string){
-    loadGraph(localStorage.getItem(`workflow:${workflowName}`))
-    setShowOpenDialog(false)
-    
+  function handleOpen(workflowName: string) {
+    const graph = localStorage.getItem(`workflow:${workflowName}`);
+    if (!graph) {
+      throw new Error(`workflow:${workflowName} not found in localStorage`);
+    }
+    loadGraph(graph);
+    setShowOpenDialog(false);
   }
 
   return (
