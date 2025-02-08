@@ -95,6 +95,7 @@ const useStore = create<AppStore>((set, get) => ({
     set({ nodes: newNodes });
   },
   updateNodeData: (nodeId: string, data: Record<string, any>) => {
+    // @ts-ignore
     const newNodes: AppNode[] = get().nodes.map(nd => {
       if(nd.id!==nodeId){
         return {...nd}
@@ -122,6 +123,7 @@ const useStore = create<AppStore>((set, get) => ({
     });
     return `linear-gradient(0deg, ${colors.join(", ")})`;
   },
+  // @ts-ignore
   addNode(type: AppNode['type'], position: { x: number; y: number }) {
     if(!type){
       return ;

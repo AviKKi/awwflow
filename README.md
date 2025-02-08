@@ -1,0 +1,17 @@
+- Setting Modal to set secrets
+- Nodes
+    - [ ] Input
+    - [ ] Output
+    - [ ] Prompt AI
+    - Text Operations
+        - [ ] Merge Text
+        - [ ] Text Builder (template String)
+        - [ ]
+    - Conditional Nodes
+        - [ ] A Switch node like blender, to switch the inputs based on some logic
+            - [ ] if we reverse logic from 2 to 1, to 1 to 2, we can use this to disable a node
+        - [ ] A Conditional Parent node, that takes in a boolean and disables the Node execution if bool is false
+    - File Reader Node
+        - [ ] PDF Read
+        - [ ] TXT Read
+- NodeJS engine
