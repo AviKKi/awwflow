@@ -20,8 +20,17 @@ import {
   DialogContent,
   DialogTitle,
 } from "./ui/dialog";
+import { useSettingsStore } from "../store/settingsStore";
 
-function SaveDialog(props: any) {
+interface SaveDialogProps {
+  show: boolean;
+  onClose: (open: boolean) => void;
+  projectName: string;
+  setProjectName: (name: string) => void;
+  onSave: () => void;
+}
+
+function SaveDialog(props: SaveDialogProps) {
   return (
     <AlertDialog open={props.show} onOpenChange={props.onClose}>
       <AlertDialogContent>
@@ -47,7 +56,15 @@ function SaveDialog(props: any) {
   );
 }
 
-function OpenWorkflowDialog(props: any) {
+
+interface OpenWorkflowDialogProps {
+  show: boolean;
+  onClose: (open: boolean) => void;
+  workflows: string[];
+  onOpen: (workflowName: string) => void;
+}
+
+function OpenWorkflowDialog(props: OpenWorkflowDialogProps) {
   return (
     <Dialog open={props.show} onOpenChange={props.onClose}>
       <DialogContent className="sm:max-w-[425px]">
@@ -73,10 +90,55 @@ function OpenWorkflowDialog(props: any) {
   );
 }
 
+// Dialog component for managing the API key
+interface SettingsDialogProps {
+  show: boolean;
+  onClose: (open: boolean) => void;
+}
+
+export function SettingsDialog({ show, onClose }: SettingsDialogProps) {
+  const { openAiApiKey, setOpenAiApiKey } = useSettingsStore();
+  const [tempApiKey, setTempApiKey] = useState(openAiApiKey);
+  return (
+    <AlertDialog open={show} onOpenChange={onClose}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Settings</AlertDialogTitle>
+          <AlertDialogDescription>
+            Manage your application settings below.
+            <div className="mt-4">
+              <label className="block text-sm font-medium">OpenAI API Key</label>
+              <Input
+                value={tempApiKey}
+                onChange={(e) => setTempApiKey(e.target.value)}
+                className="mt-2"
+                type="password"
+                placeholder="Enter OpenAI API Key"
+              />
+            </div>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={() => {
+            setOpenAiApiKey(tempApiKey);
+            onClose(false);
+          }}>
+            Save
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
+
+
+
 export default function SaveButton() {
   const [projectName, setProjectName] = useState("");
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [showOpenDialog, setShowOpenDialog] = useState(false);
+  const [showSettingsDialog, setShowSettingsDialog] = useState(false)
   const [savedWorkflows, setSavedWorkflows] = useState<string[]>([]);
   const dumpGraph = useStore((state) => state.dump);
   const loadGraph = useStore((state) => state.load);
@@ -110,6 +172,9 @@ export default function SaveButton() {
     loadGraph(graph);
     setShowOpenDialog(false);
   }
+  function handleSettingsOpen(){
+    setShowSettingsDialog(true)
+  }
 
   return (
     <>
@@ -126,6 +191,7 @@ export default function SaveButton() {
         setProjectName={setProjectName}
         onSave={handleSave}
       />
+      <SettingsDialog show={showSettingsDialog} onClose={()=>setShowSettingsDialog(false)} />
       <div className="absolute top-2 right-2 z-10 flex gap-2">
         <Button onClick={() => setShowSaveDialog(true)} variant="outline">
           Save
@@ -133,7 +199,7 @@ export default function SaveButton() {
         <Button onClick={handleOpenButtonClick} variant="outline">
           Open
         </Button>
-        <Button variant="outline">
+        <Button onClick={handleSettingsOpen} variant="outline">
           <FiSettings />
         </Button>
       </div>

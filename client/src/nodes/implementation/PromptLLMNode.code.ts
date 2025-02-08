@@ -1,4 +1,5 @@
-const apiKey = localStorage.getItem("OPENAI_API_KEY");
+import { useSettingsStore } from "../../store/settingsStore";
+
 
 export default async function func({
   query,
@@ -6,6 +7,7 @@ export default async function func({
   systemPrompt: string;
   query: string;
 }) {
+  const apiKey = useSettingsStore.getState().openAiApiKey
   const url = "https://api.openai.com/v1/chat/completions";
 
   const headers = {

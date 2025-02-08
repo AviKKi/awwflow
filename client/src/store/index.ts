@@ -10,7 +10,7 @@ import {
 import { HandleConnection } from "@xyflow/system";
 import { create } from "zustand";
 import { AppNode, NodeDefaultValues } from "../nodes";
-import { parse } from "path";
+
 
 export interface AppStore {
   idCounter: number
