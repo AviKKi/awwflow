@@ -14,6 +14,7 @@ import {
   FiFileText,
   FiPlus,
   FiX,
+  FiType,
 } from "react-icons/fi";
 import { RxMagicWand } from "react-icons/rx";
 import { useDnD } from "../utils/dragAndDrop";
@@ -65,6 +66,12 @@ const nodesDetails = [
     title: "Prompt AI",
     description: "Generate response from LLM",
     type: "promptLLM",
+  },
+  {
+    icon: <FiType />,
+    title: "Text Replace",
+    description: "Replace text with new text",
+    type: "textReplace",
   },
   {
     icon: <FiFileText />,
