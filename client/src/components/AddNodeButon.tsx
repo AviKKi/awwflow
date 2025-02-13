@@ -15,6 +15,7 @@ import {
   FiPlus,
   FiX,
   FiType,
+  FiFile,
 } from "react-icons/fi";
 import { RxMagicWand } from "react-icons/rx";
 import { useDnD } from "../utils/dragAndDrop";
@@ -76,10 +77,10 @@ const nodesDetails = [
     type: "textReplace",
   },
   {
-    icon: <FiFileText />,
+    icon: <FiFile />,
     title: "File Reader",
-    description: "Extract text from a file",
-    type: "fileReader",
+    description: "Read and output text file content",
+    type: "fileReader"
   },
   {
     icon: <TextQuote />,

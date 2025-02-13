@@ -7,6 +7,7 @@ import OutputNode, { IOutputNode, outputNodeDefaultData } from "./OutputNode";
 import { ITextReplaceNode, textReplaceNodeDefaultData } from './TextReplaceNode'
 import TextReplaceNode from './TextReplaceNode'
 import TextTemplateNode, { ITextTemplateNode, textTemplateNodeDefaultData } from './TextTemplateNode'
+import FileReaderNode, { IFileReaderNode, fileReaderNodeDefaultData } from './FileReaderNode'
 
 export type AppNode =
   | IColorInputNode
@@ -17,13 +18,15 @@ export type AppNode =
   | BuiltInNode
   | ITextReplaceNode
   | ITextTemplateNode
+  | IFileReaderNode
 
 export const NodeDefaultValues = {
     input: inputNodeDefaultData,
     output: outputNodeDefaultData,
     promptLLM: promptLLMNodeDefaultData,
     textReplace: textReplaceNodeDefaultData,
-    textTemplate: textTemplateNodeDefaultData
+    textTemplate: textTemplateNodeDefaultData,
+    fileReader: fileReaderNodeDefaultData
 } as const
 
 export const NodeTypes = {
@@ -33,5 +36,6 @@ export const NodeTypes = {
     colorInput: ColorInputNode,
     gradientOutput: GradientOutputNode,
     textReplace: TextReplaceNode,
-    textTemplate: TextTemplateNode
+    textTemplate: TextTemplateNode,
+    fileReader: FileReaderNode
 }
