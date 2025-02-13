@@ -1,14 +1,16 @@
 import input from './InputNode.code'
+import output from './OutputNode.code'
 import promptLLM from './PromptLLMNode.code'
 import textReplace from './TextReplaceNode.code'
-import textTemplateNode from './TextTemplateNode.code'
+import textTemplate from './TextTemplateNode.code'
 import fileReader from './FileReaderNode.code'
 
 const nodeImplementations = {
     input,
+    output,
     promptLLM,
     textReplace,
-    textTemplate: textTemplateNode,
+    textTemplate,
     fileReader
 }
 

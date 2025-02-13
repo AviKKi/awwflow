@@ -11,6 +11,7 @@ import {
 } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../components/ui/table";
+import { stat } from "fs";
 
 function OutputModal({ onClose }: { onClose: () => void }) {
   const status = useExecutionStore((state) => state.status);
@@ -22,7 +23,7 @@ function OutputModal({ onClose }: { onClose: () => void }) {
     statusBadge = <Badge color="yellow">Processing</Badge>;
   }
   return (
-    <Card className="h-max min-w-80 min-h-96 absolute right-2 bottom-12">
+    <Card className="h-[calc(100vh-110px)] w-[50vw] absolute right-2 bottom-12">
       <CardHeader>
         <CardTitle className="flex justify-between">
           <div className="">
@@ -30,32 +31,32 @@ function OutputModal({ onClose }: { onClose: () => void }) {
             {statusBadge}
           </div>
           <div>
-          <Button
-            size="icon"
-            onClick={onClose}
-            className="right-6 absolute float-right"
-            variant="outline"
-          >
-            <FiX />
-          </Button>
+            <Button
+              size="icon"
+              onClick={onClose}
+              className="right-6 absolute float-right"
+              variant="outline"
+            >
+              <FiX />
+            </Button>
           </div>
-          
+
         </CardTitle>
       </CardHeader>
       <CardContent className="gap-2 flex flex-col">
         <Table>
-            <TableHeader>
-                <TableRow>
-                    <TableHead>NodeId</TableHead>
-                    <TableHead>Output</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {Object.entries(nodeOutputs).map(([id, output]) => <TableRow key={id}>
-                    <TableCell>{id}</TableCell>
-                    <TableCell>{output}</TableCell>
-                </TableRow>)}
-            </TableBody>
+          <TableHeader>
+            <TableRow>
+              <TableHead>NodeId</TableHead>
+              <TableHead>Output</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {Object.entries(nodeOutputs).map(([id, output]) => <TableRow key={id}>
+              <TableCell>{id}</TableCell>
+              <TableCell>{output}</TableCell>
+            </TableRow>)}
+          </TableBody>
         </Table>
       </CardContent>
     </Card>
@@ -65,19 +66,26 @@ function OutputModal({ onClose }: { onClose: () => void }) {
 export default function RunButton() {
   const [showOutput, setShowOutput] = useState(false);
   const status = useExecutionStore((state) => state.status);
+  const nodeOutputs = useExecutionStore(state => state.nodeOutputs)
+  const showOutputButton = !(status === 'IDLE' && Object.entries(nodeOutputs).length === 0)
+  function handleRun(){
+    run()
+    setShowOutput(true)
+  }
   return (
     <div className="absolute bottom-2 right-2">
       <Button
-        onClick={() => (status === "IDLE" ? run() : setShowOutput((s) => !s))}
+        disabled={status==='PROCESSING'}
+        onClick={handleRun}
         className="mr-2"
       >
         <FiPlay />
         Run
       </Button>
-      <Button variant="ghost" onClick={() => setShowOutput((s) => !s)}>
+      {showOutputButton && <Button variant="ghost" onClick={() => setShowOutput((s) => !s)}>
         <FiFile />
         Outputs
-      </Button>
+      </Button>}
       {showOutput && <OutputModal onClose={() => setShowOutput(false)} />}
     </div>
   );
