@@ -72,8 +72,20 @@ const useStore = create<AppStore>((set, get) => ({
     });
   },
   onConnect: (connection) => {
+    // Get the target handle element to read the data-path attribute
+    const targetHandle = document.querySelector(
+      `[data-handleid="${connection.targetHandle}"][data-nodeid="${connection.target}"]`
+    )
+    const dataPath = targetHandle?.getAttribute('data-path')
+    
     set({
-      edges: addEdge(connection, get().edges),
+      edges: addEdge(
+        {
+          ...connection,
+          data: dataPath ? { path: dataPath } : undefined
+        },
+        get().edges
+      ),
     });
   },
   setNodes: (nodes) => {
@@ -107,7 +119,7 @@ const useStore = create<AppStore>((set, get) => ({
       if(!allKeysMatch){
         throw new Error(`type of object ${data} cannot be assigned to node ${nd}, id ${nodeId}`)
       }
-      return { ...nd, data }
+      return { ...nd, data: {...nd.data, ...data} }
     })
     set({nodes: newNodes})
   },
@@ -158,5 +170,6 @@ const useStore = create<AppStore>((set, get) => ({
     })
   }
 }));
+
 
 export default useStore;

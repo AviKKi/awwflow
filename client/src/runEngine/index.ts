@@ -78,6 +78,18 @@ function isPromise<T = any>(obj: unknown): obj is Promise<T> {
   );
 }
 
+function setNestedValue(obj: Record<string, any>, path: string, value: any): void {
+  const pathParts = path.split('.')
+  let current = obj
+  for (let i = 0; i < pathParts.length - 1; i++) {
+    if (!current[pathParts[i]]) {
+      current[pathParts[i]] = {}
+    }
+    current = current[pathParts[i]]
+  }
+  current[pathParts[pathParts.length - 1]] = value
+}
+
 export default async function run() {
   const executionStatus = useExecutionStore.getState().status;
   if (executionStatus === "PROCESSING") { // don't double run it
@@ -122,9 +134,14 @@ export default async function run() {
         throw new Error("Edges without targetHandle are not supported");
       }
       let sourceOutput = outputDict[edge.source];
-      // @todo handle null
-      inflowData[edge.targetHandle] = sourceOutput;
+      const dataPath = (edge.data as any)?.path
+      if (dataPath) {
+        setNestedValue(inflowData, dataPath, sourceOutput)
+      } else {
+        inflowData[edge.targetHandle] = sourceOutput;
+      }
     });
+
     let output = func(inflowData);
     if (isPromise(output)) {
       output = await output;

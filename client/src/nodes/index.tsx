@@ -6,12 +6,32 @@ import PromptLLMNode, { IPromptLLMNode, promptLLMNodeDefaultData } from "./Promp
 import OutputNode, { IOutputNode, outputNodeDefaultData } from "./OutputNode";
 import { ITextReplaceNode, textReplaceNodeDefaultData } from './TextReplaceNode'
 import TextReplaceNode from './TextReplaceNode'
+import TextTemplateNode, { ITextTemplateNode, textTemplateNodeDefaultData } from './TextTemplateNode'
 
-export type AppNode = IColorInputNode | IGradientNode | IInputNode | IOutputNode | IPromptLLMNode | BuiltInNode | ITextReplaceNode
+export type AppNode =
+  | IColorInputNode
+  | IGradientNode
+  | IInputNode
+  | IOutputNode
+  | IPromptLLMNode
+  | BuiltInNode
+  | ITextReplaceNode
+  | ITextTemplateNode
+
 export const NodeDefaultValues = {
     input: inputNodeDefaultData,
     output: outputNodeDefaultData,
     promptLLM: promptLLMNodeDefaultData,
     textReplace: textReplaceNodeDefaultData,
+    textTemplate: textTemplateNodeDefaultData
 } as const
-export const NodeTypes = { input: InputNode, output: OutputNode, promptLLM: PromptLLMNode, colorInput: ColorInputNode, gradientOutput: GradientOutputNode, textReplace: TextReplaceNode };
+
+export const NodeTypes = {
+    input: InputNode,
+    output: OutputNode,
+    promptLLM: PromptLLMNode,
+    colorInput: ColorInputNode,
+    gradientOutput: GradientOutputNode,
+    textReplace: TextReplaceNode,
+    textTemplate: TextTemplateNode
+}

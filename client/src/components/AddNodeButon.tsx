@@ -18,6 +18,8 @@ import {
 } from "react-icons/fi";
 import { RxMagicWand } from "react-icons/rx";
 import { useDnD } from "../utils/dragAndDrop";
+import { TextQuote } from 'lucide-react'
+
 interface NodeCardProps {
   icon: any;
   title: string;
@@ -79,6 +81,12 @@ const nodesDetails = [
     description: "Extract text from a file",
     type: "fileReader",
   },
+  {
+    icon: <TextQuote />,
+    title: 'Text Template',
+    description: 'Replace template variables with input text',
+    type: 'textTemplate'
+  }
 ];
 
 function NodesListCard({ onClose }: { onClose: () => void }) {
