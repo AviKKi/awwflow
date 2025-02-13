@@ -10,11 +10,13 @@ import { Button } from '../components/ui/button'
 export type IFileReaderNode = Node<{
   fileName: string
   content: Blob | null
+  fileType: 'text' | 'pdf' | null
 }, 'fileReader'>
 
 export const fileReaderNodeDefaultData = {
   fileName: '',
-  content: null
+  content: null,
+  fileType: null
 }
 
 const truncateFileName = (fileName: string, maxLength: number = 20) => {
@@ -25,6 +27,10 @@ const truncateFileName = (fileName: string, maxLength: number = 20) => {
   const truncatedName = nameWithoutExtension.slice(0, maxLength - 3) + '...'
   
   return `${truncatedName}.${extension}`
+}
+
+const isValidFileType = (type: string) => {
+  return type === 'text/plain' || type === 'text/csv' || type === 'application/pdf'
 }
 
 export default function FileReaderNode({ id, data }: NodeProps<IFileReaderNode>) {
@@ -38,9 +44,11 @@ export default function FileReaderNode({ id, data }: NodeProps<IFileReaderNode>)
 
     setIsLoading(true)
     try {
+      const fileType = file.type === 'application/pdf' ? 'pdf' : 'text'
       updateNodeData(id, {
         fileName: file.name,
-        content: file
+        content: file,
+        fileType
       })
     } catch (error) {
       console.error('Error reading file:', error)
@@ -67,7 +75,7 @@ export default function FileReaderNode({ id, data }: NodeProps<IFileReaderNode>)
     setIsDragging(false)
 
     const file = e.dataTransfer.files[0]
-    if (file && (file.type === 'text/plain' || file.type === 'text/csv')) {
+    if (file && isValidFileType(file.type)) {
       await handleFile(file)
     }
   }
@@ -86,7 +94,8 @@ export default function FileReaderNode({ id, data }: NodeProps<IFileReaderNode>)
   const handleRemoveFile = () => {
     updateNodeData(id, {
       fileName: '',
-      content: null
+      content: null,
+      fileType: null
     })
     if (fileInputRef.current) {
       fileInputRef.current.value = ''
@@ -96,7 +105,7 @@ export default function FileReaderNode({ id, data }: NodeProps<IFileReaderNode>)
   return (
     <NodeCard 
       title="File Reader"
-      description="Reads and outputs the content of a text file"
+      description="Reads and outputs the content of a text or PDF file"
     >
       <div className="p-4 flex flex-col gap-2">
         {!data.fileName ? (
@@ -117,7 +126,7 @@ export default function FileReaderNode({ id, data }: NodeProps<IFileReaderNode>)
               ref={fileInputRef}
               type="file"
               className="hidden"
-              accept=".txt,.csv"
+              accept=".txt,.csv,.pdf"
               onChange={handleFileInput}
               disabled={isLoading}
             />
@@ -127,15 +136,20 @@ export default function FileReaderNode({ id, data }: NodeProps<IFileReaderNode>)
                 {isLoading ? 'Loading...' : 'Drop file here or click to upload'}
               </p>
               <p className="text-xs text-muted-foreground mt-1">
-                Supports .txt and .csv files
+                Supports .txt, .csv, and .pdf files
               </p>
             </div>
           </div>
         ) : (
           <div className="flex items-center justify-between gap-2 border rounded-md p-2">
-            <p className="text-sm text-muted-foreground truncate flex-1" title={data.fileName}>
-              {truncateFileName(data.fileName)}
-            </p>
+            <div className="flex flex-col flex-1 min-w-0">
+              <p className="text-sm text-muted-foreground truncate" title={data.fileName}>
+                {truncateFileName(data.fileName)}
+              </p>
+              <p className="text-xs text-muted-foreground/75">
+                {data.fileType === 'pdf' ? 'PDF Document' : 'Text File'}
+              </p>
+            </div>
             <Button
               variant="ghost"
               size="icon"

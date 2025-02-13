@@ -10,4 +10,12 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  optimizeDeps: {
+    include: ['pdfjs-dist']
+  },
+  build: {
+    commonjsOptions: {
+      include: [/pdfjs-dist/]
+    }
+  }
 })
