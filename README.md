@@ -1,17 +1,50 @@
+Drag and Drop AI Tool maker
+
 - Setting Modal to set secrets
 - Nodes
-    - [ ] Input
-    - [ ] Output
-    - [ ] Prompt AI
+    - [x] Input
+    - [x] Output
+    - [x] Prompt AI
     - Text Operations
         - [ ] Merge Text
-        - [ ] Text Builder (template String)
-        - [ ]
+        - [x] Text Builder (template String)
+        - [x] Replace
+        - [ ] Split
+        - [ ] Chunk
     - Conditional Nodes
         - [ ] A Switch node like blender, to switch the inputs based on some logic
             - [ ] if we reverse logic from 2 to 1, to 1 to 2, we can use this to disable a node
         - [ ] A Conditional Parent node, that takes in a boolean and disables the Node execution if bool is false
     - File Reader Node
-        - [ ] PDF Read
-        - [ ] TXT Read
+        - [x] PDF Read
+        - [x] TXT Read
+    - Code Node
+        - [ ] A node to execute custom code
+    - Variable Node
+        - [ ] hardcoded variables like String, List, boolean, number, JSON
+        - These are required as part of input so we can hardcode them in the graph
+    - Array Methods
+        - [ ] push
+        - [ ] concat
+        - [ ] getItem
+        - [ ] find
+        - [ ] map
+    - JSON Methods
+        - 
+    - Tool Node
+        - A group of two node, one for feeding tooldefination into the LLM and one for taking tool defination and executing the action
 - NodeJS engine
+
+### RoadMap
+- [ ] Tutorials
+    - [ ] Walk-through on how to use the tool, that tells you what to type, and where to click 
+- [ ] Debugging and Setup by Execution
+    - [ ] Steps can be run one at a time, like debugger
+    - [ ] A console for Error messages
+- [ ] Code generator - convert the graph into code of any language
+- [ ] API endpoint - a workflow can be consumed as API Endpoint
+- [ ] UI Generator - Create UI for workflow input and output
+    - A simple form
+    - A chat interface
+- [ ] Nested Workflows - Create an existing Workflow as node, for better reusability and abstraction
+- [ ] Agent Orchestration - ???
