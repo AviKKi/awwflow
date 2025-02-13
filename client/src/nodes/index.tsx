@@ -39,3 +39,12 @@ export const NodeTypes = {
     textTemplate: TextTemplateNode,
     fileReader: FileReaderNode
 }
+/** mapping from nodeType to human readble node names, preferably the one you see on UI as node heading */
+export const NodeTypeToNodeName: Record<string, string> = {
+    input: "Input",
+    output: "Output",
+    promptLLM: "Prompt AI",
+    textReplace: 'Text Replace',
+    textTemplate: 'Text Template',
+    fileReader: 'File Reader'
+}

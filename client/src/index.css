@@ -12,6 +12,9 @@
   border: none !important;
   box-shadow: none !important;
 }
+.react-flow__node.selected.selectable > div{
+  border-color: hsl(var(--primary)) !important;
+}
  
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

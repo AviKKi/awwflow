@@ -9,13 +9,14 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+
   },
-  optimizeDeps: {
-    include: ['pdfjs-dist']
-  },
-  build: {
-    commonjsOptions: {
-      include: [/pdfjs-dist/]
-    }
-  }
+  // optimizeDeps: {
+  //   include: ['pdfjs-dist']
+  // },
+  // build: {
+  //   commonjsOptions: {
+  //     include: [/pdfjs-dist/]
+  //   }
+  // }
 })
