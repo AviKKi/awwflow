@@ -60,7 +60,7 @@ function OutputModal({ onClose }: { onClose: () => void }) {
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent className="gap-2 flex flex-col">
+      <CardContent className="gap-2 flex flex-col p-0">
         <Table>
           <TableHeader>
             <TableRow>

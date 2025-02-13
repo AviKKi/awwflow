@@ -1,20 +1,17 @@
 import * as pdfjsLib from 'pdfjs-dist'
-import { GlobalWorkerOptions } from 'pdfjs-dist'
-
-// Initialize PDF.js worker
-if (typeof window !== 'undefined') {
-  GlobalWorkerOptions.workerSrc = new URL(
-    'pdfjs-dist/build/pdf.worker.min.mjs',
-    import.meta.url
-  ).toString()
-}
+import '../../utils/pdf' // Import for PDF.js worker initialization
 
 export default async function func({
   content,
-  fileType
+  fileType,
+  pageRange
 }: {
   content: Blob | null
   fileType: 'text' | 'pdf' | null
+  pageRange: {
+    start: number
+    end: number
+  }
 }) {
   if (!content || !fileType) {
     return ''
@@ -31,13 +28,16 @@ export default async function func({
       const pdf = await loadingTask.promise
       
       let fullText = ''
-      for (let i = 1; i <= pdf.numPages; i++) {
+      const startPage = Math.max(1, pageRange.start)
+      const endPage = Math.min(pdf.numPages, pageRange.end)
+      
+      for (let i = startPage; i <= endPage; i++) {
         const page = await pdf.getPage(i)
         const textContent = await page.getTextContent()
         const pageText = textContent.items
           .map((item: any) => item.str)
           .join(' ')
-        fullText += pageText + '\n\n'
+        fullText += `[Page ${i}]\n${pageText}\n\n`
       }
       
       return fullText.trim()
