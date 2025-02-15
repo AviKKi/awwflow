@@ -13,6 +13,7 @@ import { HandleConnection } from "@xyflow/system";
 import { create } from "zustand";
 import { AppNode, NodeDefaultValues } from "../nodes";
 
+// @techDebt this value of 200px is hardcoded for rulesGateNdoe need to update it
 const PARENT_TOP_PADDING = 200
 const CHILD_VERTICAL_GAP = 10
 const PARENT_MIN_WIDTH = 400

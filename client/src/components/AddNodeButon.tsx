@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
+import { Input } from "./ui/input";
 import {
   FiArrowDown,
   FiArrowUp,
@@ -116,6 +117,13 @@ const nodesDetails = [
 ] as const;
 
 function NodesListCard({ onClose }: { onClose: () => void }) {
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const filteredNodes = nodesDetails.filter(node => 
+    node.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    node.description.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
   return (
     <Card className="h-max absolute left-0 top-0">
       <CardHeader>
@@ -131,14 +139,26 @@ function NodesListCard({ onClose }: { onClose: () => void }) {
           </Button>
         </CardTitle>
         <CardDescription>Add a new node to your program</CardDescription>
+        <Input
+          type="text"
+          placeholder="Search nodes..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="mt-2"
+        />
       </CardHeader>
-      <CardContent className="gap-2 flex flex-col">
-        {nodesDetails.map((item) => (
+      <CardContent className="gap-2 flex flex-col max-h-[calc(100vh-160px)] overflow-y-scroll">
+        {filteredNodes.map((item) => (
           <NodeDetailCard {...item} key={item.title} />
         ))}
+        {filteredNodes.length === 0 && (
+          <div className="text-sm text-muted-foreground text-center py-2">
+            No nodes found matching your search
+          </div>
+        )}
       </CardContent>
     </Card>
-  );
+  )
 }
 
 export default function AddNodeButton() {
