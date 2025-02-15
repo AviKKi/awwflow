@@ -19,7 +19,7 @@ import {
 } from "react-icons/fi";
 import { RxMagicWand } from "react-icons/rx";
 import { useDnD } from "../utils/dragAndDrop";
-import { TextQuote } from 'lucide-react'
+import { TextQuote, Database } from 'lucide-react'
 
 interface NodeCardProps {
   icon: any;
@@ -87,6 +87,12 @@ const nodesDetails = [
     title: 'Text Template',
     description: 'Replace template variables with input text',
     type: 'textTemplate'
+  },
+  {
+    icon: <Database className="h-4 w-4" />,
+    title: 'Data',
+    description: 'Define a variable with different data types',
+    type: 'dataNode'
   }
 ];
 
