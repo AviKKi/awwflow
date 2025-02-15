@@ -16,6 +16,7 @@ import {
   FiX,
   FiType,
   FiFile,
+  FiCheckCircle,
 } from "react-icons/fi";
 import { RxMagicWand } from "react-icons/rx";
 import { useDnD } from "../utils/dragAndDrop";
@@ -99,6 +100,12 @@ const nodesDetails = [
     title: 'Notes',
     description: 'Add resizable notes to your workflow',
     type: 'notesNode'
+  },
+  {
+    icon: <FiCheckCircle />,
+    title: 'Rule Checker',
+    description: 'Define and validate rules for your data',
+    type: 'ruleCheckerNode'
   }
 ];
 

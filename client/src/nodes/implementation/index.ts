@@ -6,6 +6,7 @@ import textTemplate from './TextTemplateNode.code'
 import fileReader from './FileReaderNode.code'
 import dataNode from './DataNode.code'
 import notesNode from './NotesNode.code'
+import ruleChecker from './RuleCheckerNode.code'
 
 const nodeImplementations = {
     input,
@@ -15,7 +16,8 @@ const nodeImplementations = {
     textTemplate,
     fileReader,
     dataNode,
-    notesNode
+    notesNode,
+    ruleCheckerNode: ruleChecker
 }
 
 export default nodeImplementations

@@ -10,6 +10,7 @@ import TextTemplateNode, { ITextTemplateNode, textTemplateNodeDefaultData } from
 import FileReaderNode, { IFileReaderNode, fileReaderNodeDefaultData } from './FileReaderNode'
 import DataNode, { IDataNode, dataNodeDefaultData } from './DataNode'
 import NotesNode, { INotesNode, notesNodeDefaultData } from './NotesNode'
+import RuleCheckerNode, { IRuleCheckerNode, ruleCheckerNodeDefaultData } from './RuleCheckerNode'
 
 export type AppNode =
   | IColorInputNode
@@ -23,6 +24,7 @@ export type AppNode =
   | IFileReaderNode
   | IDataNode
   | INotesNode
+  | IRuleCheckerNode
 
 export const NodeDefaultValues = {
     input: inputNodeDefaultData,
@@ -32,7 +34,8 @@ export const NodeDefaultValues = {
     textTemplate: textTemplateNodeDefaultData,
     fileReader: fileReaderNodeDefaultData,
     dataNode: dataNodeDefaultData,
-    notesNode: notesNodeDefaultData
+    notesNode: notesNodeDefaultData,
+    ruleCheckerNode: ruleCheckerNodeDefaultData
 } as const
 
 export const NodeTypes = {
@@ -45,7 +48,8 @@ export const NodeTypes = {
     textTemplate: TextTemplateNode,
     fileReader: FileReaderNode,
     dataNode: DataNode,
-    notesNode: NotesNode
+    notesNode: NotesNode,
+    ruleCheckerNode: RuleCheckerNode
 }
 /** mapping from nodeType to human readble node names, preferably the one you see on UI as node heading */
 export const NodeTypeToNodeName: Record<string, string> = {
@@ -56,5 +60,6 @@ export const NodeTypeToNodeName: Record<string, string> = {
     textTemplate: 'Text Template',
     fileReader: 'File Reader',
     dataNode: 'Data',
-    notesNode: 'Notes'
+    notesNode: 'Notes',
+    ruleCheckerNode: 'Rule Checker'
 }
