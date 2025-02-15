@@ -11,6 +11,7 @@ import FileReaderNode, { IFileReaderNode, fileReaderNodeDefaultData } from './Fi
 import DataNode, { IDataNode, dataNodeDefaultData } from './DataNode'
 import NotesNode, { INotesNode, notesNodeDefaultData } from './NotesNode'
 import RuleCheckerNode, { IRuleCheckerNode, ruleCheckerNodeDefaultData } from './RuleCheckerNode'
+import { RuleGateNode, IRuleGateNode, ruleGateNodeDefaultData } from './RuleGateNode'
 
 export type AppNode =
   | IColorInputNode
@@ -25,6 +26,7 @@ export type AppNode =
   | IDataNode
   | INotesNode
   | IRuleCheckerNode
+  | IRuleGateNode
 
 export const NodeDefaultValues = {
     input: inputNodeDefaultData,
@@ -35,7 +37,8 @@ export const NodeDefaultValues = {
     fileReader: fileReaderNodeDefaultData,
     dataNode: dataNodeDefaultData,
     notesNode: notesNodeDefaultData,
-    ruleCheckerNode: ruleCheckerNodeDefaultData
+    ruleCheckerNode: ruleCheckerNodeDefaultData,
+    ruleGateNode: ruleGateNodeDefaultData
 } as const
 
 export const NodeTypes = {
@@ -49,7 +52,8 @@ export const NodeTypes = {
     fileReader: FileReaderNode,
     dataNode: DataNode,
     notesNode: NotesNode,
-    ruleCheckerNode: RuleCheckerNode
+    ruleCheckerNode: RuleCheckerNode,
+    ruleGateNode: RuleGateNode
 }
 /** mapping from nodeType to human readble node names, preferably the one you see on UI as node heading */
 export const NodeTypeToNodeName: Record<string, string> = {
@@ -61,5 +65,6 @@ export const NodeTypeToNodeName: Record<string, string> = {
     fileReader: 'File Reader',
     dataNode: 'Data',
     notesNode: 'Notes',
-    ruleCheckerNode: 'Rule Checker'
+    ruleCheckerNode: 'Rule Checker',
+    ruleGateNode: 'Rule Gate'
 }

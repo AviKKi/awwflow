@@ -20,7 +20,7 @@ import {
 } from "react-icons/fi";
 import { RxMagicWand } from "react-icons/rx";
 import { useDnD } from "../utils/dragAndDrop";
-import { TextQuote, Database, StickyNote } from 'lucide-react'
+import { TextQuote, Database, StickyNote, ToggleLeft } from 'lucide-react'
 
 interface NodeCardProps {
   icon: any;
@@ -106,8 +106,14 @@ const nodesDetails = [
     title: 'Rule Checker',
     description: 'Define and validate rules for your data',
     type: 'ruleCheckerNode'
+  },
+  {
+    icon: <ToggleLeft />,
+    title: 'Rule Gate',
+    description: 'Controls whether the blocks inside it are active or disabled based on a condition',
+    type: 'ruleGateNode'
   }
-];
+] as const;
 
 function NodesListCard({ onClose }: { onClose: () => void }) {
   return (

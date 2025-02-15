@@ -3,36 +3,50 @@ import {
   applyEdgeChanges,
   applyNodeChanges,
   Edge,
+  Node,
   OnConnect,
   OnEdgesChange,
   OnNodesChange,
+  XYPosition,
 } from "@xyflow/react";
 import { HandleConnection } from "@xyflow/system";
 import { create } from "zustand";
 import { AppNode, NodeDefaultValues } from "../nodes";
 
+type NodeWithParent = Node & {
+  parentId?: string;
+  extent?: 'parent';
+  data: Record<string, any>;
+}
 
 export interface AppStore {
-  idCounter: number
-  nodes: AppNode[];
+  idCounter: number;
+  nodes: NodeWithParent[];
   edges: Edge[];
-  onNodesChange: OnNodesChange<AppNode>;
+  onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
-  setNodes: (nodes: AppNode[]) => void;
+  setNodes: (nodes: NodeWithParent[]) => void;
   setEdges: (edges: Edge[]) => void;
   updateNodeColor: (id: string, color: string) => void;
   getGradientColor: (connections: HandleConnection[]) => string;
-  addNode: (type: string, position: {x: number, y: number}) => void;
+  addNode: (type: string, position: XYPosition) => string;
   updateNodeData: (nodeId: string, data: Record<string, any>) => void;
   /** convert the graph into json */
-  dump: () => {nodes: AppNode[], edges: Edge[], idCounter: number};
+  dump: () => {nodes: NodeWithParent[], edges: Edge[], idCounter: number};
   /** load graph from json string */
   load: (data: string) => void;
+  /** Check if a node is a parent node */
+  isParentNode: (nodeType: string) => boolean;
+  /** Get all child nodes of a parent */
+  getChildNodes: (parentId: string) => NodeWithParent[];
+  /** Update parent node dimensions based on children */
+  updateParentDimensions: (parentId: string) => void;
+  /** Make a node a child of a parent node */
+  setNodeParent: (nodeId: string, parentId: string, parentPosition: XYPosition) => void;
 }
 
-
-const initialNodes: AppNode[] = [
+let initialNodes: NodeWithParent[] = [
   {
     id: "1",
     position: { x: 300, y: 200 },
@@ -55,6 +69,8 @@ const initialNodes: AppNode[] = [
     type: "promptLLM"
   }
 ];
+
+
 const initialEdges: Edge[] = [];
 
 const useStore = create<AppStore>((set, get) => ({
@@ -63,7 +79,7 @@ const useStore = create<AppStore>((set, get) => ({
   edges: initialEdges,
   onNodesChange: (changes) => {
     set({
-      nodes: applyNodeChanges(changes, get().nodes),
+      nodes: applyNodeChanges(changes, get().nodes) as NodeWithParent[],
     });
   },
   onEdgesChange: (changes) => {
@@ -95,7 +111,7 @@ const useStore = create<AppStore>((set, get) => ({
     set({ edges });
   },
   updateNodeColor: (nodeId: string, color: string) => {
-    const newNodes: AppNode[] = get().nodes.map((nd) => {
+    const newNodes = get().nodes.map((nd) => {
       if (nd.id !== nodeId) {
         return { ...nd };
       }
@@ -107,13 +123,11 @@ const useStore = create<AppStore>((set, get) => ({
     set({ nodes: newNodes });
   },
   updateNodeData: (nodeId: string, data: Record<string, any>) => {
-    // @ts-ignore
-    const newNodes: AppNode[] = get().nodes.map(nd => {
+    const newNodes = get().nodes.map(nd => {
       if(nd.id!==nodeId){
         return {...nd}
       }
       const allKeysMatch = Array.from(Object.keys(data)).every(key => {
-        // eslint-disable-next-line no-prototype-builtins
         return nd.data.hasOwnProperty(key)
       })
       if(!allKeysMatch){
@@ -129,34 +143,111 @@ const useStore = create<AppStore>((set, get) => ({
     connections.forEach((conn) => {
       const sourceId = conn.source;
       const source = nodes.find((nd) => nd.id === sourceId);
-      if (source && source.type === "colorInput") {
+      if (source?.type === "colorInput" && source.data.color) {
         colors.push(source.data.color);
       }
     });
     return `linear-gradient(0deg, ${colors.join(", ")})`;
   },
-  // @ts-ignore
-  addNode(type: AppNode['type'], position: { x: number; y: number }) {
-    if(!type){
-      return ;
-    }
-    let { idCounter, nodes } = get();
-    // @ts-ignore
-    const defaultData = NodeDefaultValues[type]
+  isParentNode: (nodeType: string) => {
+    return nodeType === 'ruleGateNode'
+  },
+  getChildNodes: (parentId: string) => {
+    return get().nodes.filter(node => node.parentId === parentId)
+  },
+  updateParentDimensions: (parentId: string) => {
+    const parent = get().nodes.find(node => node.id === parentId)
+    if (!parent || !get().isParentNode(parent.type || '')) return
+
+    const children = get().getChildNodes(parentId)
+    if (children.length === 0) return
+
+    // Calculate new dimensions based on children positions
+    let minX = Infinity
+    let minY = Infinity
+    let maxX = -Infinity
+    let maxY = -Infinity
+
+    children.forEach(child => {
+      const childX = child.position.x
+      const childY = child.position.y
+      const childWidth = 200 // Default width
+      const childHeight = 100 // Default height
+
+      minX = Math.min(minX, childX)
+      minY = Math.min(minY, childY)
+      maxX = Math.max(maxX, childX + childWidth)
+      maxY = Math.max(maxY, childY + childHeight)
+    })
+
+    // Add padding
+    const padding = 50
+    const width = maxX - minX + padding * 2
+    const height = maxY - minY + padding * 2
+
+    // Update parent dimensions
+    const newNodes = get().nodes.map(node => {
+      if (node.id === parentId) {
+        return {
+          ...node,
+          data: {
+            ...node.data,
+            width: Math.max(width, 400), // Minimum width
+            height: Math.max(height, 400) // Minimum height
+          }
+        }
+      }
+      return node
+    })
+
+    set({ nodes: newNodes })
+  },
+  addNode(type: string, position: XYPosition) {
+    if(!type) return ''
+
+    let { idCounter, nodes } = get()
+    const defaultData = NodeDefaultValues[type as keyof typeof NodeDefaultValues]
     idCounter += 1
-    nodes = [
-      ...nodes,
-      {
-        id: String(idCounter),
-        position: position,
-        data: defaultData,
-        type,
-      },
-    ];
-    if(type === 'notesNode'){
-      nodes[nodes.length-1].zIndex = -1
+
+    const newNode: NodeWithParent = {
+      id: String(idCounter),
+      position,
+      data: defaultData,
+      type,
+      draggable: true,
+      zIndex: type === 'notesNode' ? -1 : undefined
     }
-    set({idCounter, nodes})
+
+    // Keep parent nodes at the top of the array
+    if(get().isParentNode(type)) {
+      nodes = [newNode, ...nodes]
+    } else {
+      nodes = [...nodes, newNode]
+    }
+
+    set({ idCounter, nodes })
+    return String(idCounter)
+  },
+  setNodeParent(nodeId: string, parentId: string, parentPosition: XYPosition) {
+    const nodes = get().nodes.map(node => {
+      if (node.id === nodeId) {
+        // Convert position to be relative to parent
+        const relativePosition = {
+          x: parentPosition.x - node.position.x,
+          y: parentPosition.y - node.position.y
+        }
+        
+        return {
+          ...node,
+          parentId,
+          extent: 'parent' as const
+        }
+      }
+      return node
+    })
+
+    set({ nodes })
+    get().updateParentDimensions(parentId)
   },
   dump(){
     const {edges, nodes, idCounter} = get()

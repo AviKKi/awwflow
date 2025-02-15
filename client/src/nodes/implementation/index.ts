@@ -7,6 +7,7 @@ import fileReader from './FileReaderNode.code'
 import dataNode from './DataNode.code'
 import notesNode from './NotesNode.code'
 import ruleChecker from './RuleCheckerNode.code'
+import ruleGateNode from './RuleGateNode.code'
 
 const nodeImplementations = {
     input,
@@ -17,7 +18,8 @@ const nodeImplementations = {
     fileReader,
     dataNode,
     notesNode,
-    ruleCheckerNode: ruleChecker
+    ruleCheckerNode: ruleChecker,
+    ruleGateNode
 }
 
 export default nodeImplementations
