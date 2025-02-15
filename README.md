@@ -21,8 +21,8 @@ Drag and Drop AI Tool maker
     - Code Node
         - [ ] A node to execute custom code
     - Variable Node
-        - [ ] hardcoded variables like String, List, boolean, number, JSON
-        - These are required as part of input so we can hardcode them in the graph
+        - [x] hardcoded variables like String, List, boolean, number, JSON
+        - These are not required as part of input so we can hardcode them in the graph
     - Array Methods
         - [ ] push
         - [ ] concat

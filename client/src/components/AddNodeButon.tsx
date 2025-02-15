@@ -19,7 +19,7 @@ import {
 } from "react-icons/fi";
 import { RxMagicWand } from "react-icons/rx";
 import { useDnD } from "../utils/dragAndDrop";
-import { TextQuote, Database } from 'lucide-react'
+import { TextQuote, Database, StickyNote } from 'lucide-react'
 
 interface NodeCardProps {
   icon: any;
@@ -93,6 +93,12 @@ const nodesDetails = [
     title: 'Data',
     description: 'Define a variable with different data types',
     type: 'dataNode'
+  },
+  {
+    icon: <StickyNote className="h-4 w-4" />,
+    title: 'Notes',
+    description: 'Add resizable notes to your workflow',
+    type: 'notesNode'
   }
 ];
 

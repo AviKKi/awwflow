@@ -9,6 +9,7 @@ import TextReplaceNode from './TextReplaceNode'
 import TextTemplateNode, { ITextTemplateNode, textTemplateNodeDefaultData } from './TextTemplateNode'
 import FileReaderNode, { IFileReaderNode, fileReaderNodeDefaultData } from './FileReaderNode'
 import DataNode, { IDataNode, dataNodeDefaultData } from './DataNode'
+import NotesNode, { INotesNode, notesNodeDefaultData } from './NotesNode'
 
 export type AppNode =
   | IColorInputNode
@@ -21,6 +22,7 @@ export type AppNode =
   | ITextTemplateNode
   | IFileReaderNode
   | IDataNode
+  | INotesNode
 
 export const NodeDefaultValues = {
     input: inputNodeDefaultData,
@@ -29,7 +31,8 @@ export const NodeDefaultValues = {
     textReplace: textReplaceNodeDefaultData,
     textTemplate: textTemplateNodeDefaultData,
     fileReader: fileReaderNodeDefaultData,
-    dataNode: dataNodeDefaultData
+    dataNode: dataNodeDefaultData,
+    notesNode: notesNodeDefaultData
 } as const
 
 export const NodeTypes = {
@@ -41,7 +44,8 @@ export const NodeTypes = {
     textReplace: TextReplaceNode,
     textTemplate: TextTemplateNode,
     fileReader: FileReaderNode,
-    dataNode: DataNode
+    dataNode: DataNode,
+    notesNode: NotesNode
 }
 /** mapping from nodeType to human readble node names, preferably the one you see on UI as node heading */
 export const NodeTypeToNodeName: Record<string, string> = {
@@ -51,5 +55,6 @@ export const NodeTypeToNodeName: Record<string, string> = {
     textReplace: 'Text Replace',
     textTemplate: 'Text Template',
     fileReader: 'File Reader',
-    dataNode: 'Data'
+    dataNode: 'Data',
+    notesNode: 'Notes'
 }

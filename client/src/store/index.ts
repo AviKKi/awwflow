@@ -153,7 +153,9 @@ const useStore = create<AppStore>((set, get) => ({
         type,
       },
     ];
-    console.log(nodes)
+    if(type === 'notesNode'){
+      nodes[nodes.length-1].zIndex = -1
+    }
     set({idCounter, nodes})
   },
   dump(){
