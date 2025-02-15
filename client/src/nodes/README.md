@@ -3,14 +3,19 @@
 ## Files Overview
 
 ### New Files to Create:
-1. `nodes/YourNode.tsx` - Node UI component
-2. `nodes/implementation/YourNode.code.ts` - Node implementation logic
+1. `nodes/YourNode.tsx` - Node UI component, suffix with Node
+  - define component `YourNode`
+  - define node type `IYourNode`
+  - define default data `yourNodeDefaultData`, suffix is NodeDefaultdata
+2. `nodes/implementation/YourNode.code.ts` - Node implementation logic, suffix with Node.code
 
 ### Files to Modify:
 1. `nodes/index.tsx`
+   - Don't define anything here, just import from `nodes/YourNode.tsx`
    - Add node type to AppNode union type
    - Add default values to NodeDefaultValues
    - Add component to NodeTypes
+   - Add a user readable name for node in `NodeTypeToNodeName` object
 
 2. `nodes/implementation/index.ts`
    - Import node implementation
