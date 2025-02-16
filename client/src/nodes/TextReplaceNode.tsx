@@ -4,6 +4,7 @@ import InputHandle from '../components/InputHandle'
 import OutputHandle from '../components/OutputHandle'
 import { Textarea } from '../components/ui/textarea'
 import useStore from '../store'
+import { FiType } from 'react-icons/fi'
 
 export type ITextReplaceNode = Node<{
   text: string
@@ -15,6 +16,13 @@ export const textReplaceNodeDefaultData = {
   text: '',
   searchValue: '',
   newValue: ''
+}
+
+export const textReplaceNodeMetadata = {
+  icon: FiType,
+  title: "Text Replace",
+  description: "Replace text with new text",
+  type: "textReplace" as const,
 }
 
 export default function TextReplaceNode({ id, data }: NodeProps<ITextReplaceNode>) {

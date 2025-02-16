@@ -6,7 +6,7 @@ import NodeCard from '../components/NodeCard'
 import InputHandle from '../components/InputHandle'
 import OutputHandle from '../components/OutputHandle'
 import useStore from '../store'
-import { Plus, Minus } from 'lucide-react'
+import { Plus, Minus, TextQuote } from 'lucide-react'
 
 export type ITextTemplateNode = Node<{
   template: string
@@ -18,6 +18,13 @@ export const textTemplateNodeDefaultData = {
   template: '',
   textInputs: { text1: '' },
   inputCount: 1
+}
+
+export const textTemplateNodeMetadata = {
+  icon: TextQuote,
+  title: "Text Template",
+  description: "Replace template variables with input text",
+  type: "textTemplate" as const,
 }
 
 export default function TextTemplateNode({ id, data }: NodeProps<ITextTemplateNode>) {

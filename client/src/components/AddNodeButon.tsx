@@ -22,6 +22,7 @@ import {
 import { RxMagicWand } from "react-icons/rx";
 import { useDnD } from "../utils/dragAndDrop";
 import { TextQuote, Database, StickyNote, ToggleLeft } from 'lucide-react'
+import { nodesMetadata } from '../nodes'
 
 interface NodeCardProps {
   icon: any;
@@ -38,13 +39,15 @@ function NodeDetailCard(props: NodeCardProps) {
     event.dataTransfer.effectAllowed = "move";
   };
 
+  const Icon = props.icon;
+
   return (
     <div
       draggable
       onDragStart={onDragStart}
-      className=" flex items-center space-x-4 rounded-md border p-4"
+      className="flex items-center space-x-4 rounded-md border p-4"
     >
-      {props.icon}
+      <Icon className="h-4 w-4" />
       <div className="flex-1 space-y-1">
         <p className="text-sm font-medium leading-none">{props.title}</p>
         <p className="text-sm text-muted-foreground">{props.description}</p>
@@ -53,68 +56,7 @@ function NodeDetailCard(props: NodeCardProps) {
   );
 }
 
-const nodesDetails = [
-  {
-    icon: <FiArrowDown />,
-    title: "Input",
-    description: "User entered data for your program.",
-    type: "input",
-  },
-  {
-    icon: <FiArrowUp />,
-    title: "Output",
-    description: "Output of your program",
-    type: "output",
-  },
-  {
-    icon: <RxMagicWand />,
-    title: "Prompt AI",
-    description: "Generate response from LLM",
-    type: "promptLLM",
-  },
-  {
-    icon: <FiType />,
-    title: "Text Replace",
-    description: "Replace text with new text",
-    type: "textReplace",
-  },
-  {
-    icon: <FiFile />,
-    title: "File Reader",
-    description: "Read and output text file content",
-    type: "fileReader"
-  },
-  {
-    icon: <TextQuote />,
-    title: 'Text Template',
-    description: 'Replace template variables with input text',
-    type: 'textTemplate'
-  },
-  {
-    icon: <Database className="h-4 w-4" />,
-    title: 'Data',
-    description: 'Define a variable with different data types',
-    type: 'dataNode'
-  },
-  {
-    icon: <StickyNote className="h-4 w-4" />,
-    title: 'Notes',
-    description: 'Add resizable notes to your workflow',
-    type: 'notesNode'
-  },
-  {
-    icon: <FiCheckCircle />,
-    title: 'Rule Checker',
-    description: 'Define and validate rules for your data',
-    type: 'ruleCheckerNode'
-  },
-  {
-    icon: <ToggleLeft />,
-    title: 'Rule Gate',
-    description: 'Controls whether the blocks inside it are active or disabled based on a condition',
-    type: 'ruleGateNode'
-  }
-] as const;
+const nodesDetails = nodesMetadata
 
 function NodesListCard({ onClose }: { onClose: () => void }) {
   const [searchQuery, setSearchQuery] = useState('')

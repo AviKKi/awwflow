@@ -7,6 +7,7 @@ import NodeCard from "../components/NodeCard";
 import { Textarea } from "../components/ui/textarea";
 import OutHandle from "../components/OutputHandle";
 import InputHandle from "../components/InputHandle";
+import { FiArrowDown } from 'react-icons/fi'
 
 export type IInputNode = Node<
   {
@@ -19,6 +20,13 @@ export type IInputNode = Node<
 export const inputNodeDefaultData = {
   defaultValue: "",
   inputName: "",
+};
+
+export const inputNodeMetadata = {
+  icon: FiArrowDown,
+  title: "Input",
+  description: "User entered data for your program.",
+  type: "input" as const,
 };
 
 export default function InputNode({ id, data }: NodeProps<IInputNode>) {

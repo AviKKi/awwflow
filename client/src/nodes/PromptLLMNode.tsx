@@ -13,6 +13,7 @@ import InputHandle from "../components/InputHandle";
 import OutputHandle from "../components/OutputHandle";
 import { Textarea } from "../components/ui/textarea";
 import useStore from "../store";
+import { RxMagicWand } from 'react-icons/rx'
 
 export type IPromptLLMNode = Node<
   {
@@ -26,6 +27,13 @@ export const promptLLMNodeDefaultData = {
   systemPrompt: "",
   query: "",
 };
+
+export const promptLLMNodeMetadata = {
+  icon: RxMagicWand,
+  title: "Prompt AI",
+  description: "Generate response from LLM",
+  type: "promptLLM" as const,
+}
 
 export default function PromptLLMNode({ id, data }: NodeProps<IPromptLLMNode>) {
   const updateNodeData = useStore((state) => state.updateNodeData);

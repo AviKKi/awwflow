@@ -4,7 +4,7 @@ import NodeCard from '../components/NodeCard'
 import OutputHandle from '../components/OutputHandle'
 import useStore from '../store'
 import { cn } from '../lib/utils'
-import { FiUploadCloud, FiTrash2 } from 'react-icons/fi'
+import { FiUploadCloud, FiTrash2, FiFile } from 'react-icons/fi'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
 import { getPdfPageCount } from '../utils/pdf'
@@ -29,6 +29,13 @@ export const fileReaderNodeDefaultData = {
     start: 1,
     end: 1
   }
+}
+
+export const fileReaderNodeMetadata = {
+  icon: FiFile,
+  title: "File Reader",
+  description: "Read and output text file content",
+  type: "fileReader" as const,
 }
 
 const truncateFileName = (fileName: string, maxLength: number = 20) => {

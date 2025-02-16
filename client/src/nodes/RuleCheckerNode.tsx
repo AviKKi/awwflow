@@ -14,6 +14,7 @@ import {
 } from '../components/ui/select'
 import { Input } from '../components/ui/input'
 import { X, Plus } from 'lucide-react'
+import { FiCheckCircle } from 'react-icons/fi'
 
 export type DataType = 'Text' | 'Number' | 'List' | 'Collection'
 
@@ -62,17 +63,24 @@ interface Condition {
   rightId: string
 }
 
-export interface IRuleCheckerNode extends Node {
-  type: 'ruleCheckerNode'
-  data: {
+export type IRuleCheckerNode = Node<
+  {
     inputs: InputConfig[]
     conditions: Condition[]
-  }
-}
+  },
+  "ruleCheckerNode"
+>
 
 export const ruleCheckerNodeDefaultData = {
   inputs: [{ id: 'input1', dataType: 'Text' as DataType }],
   conditions: []
+}
+
+export const ruleCheckerNodeMetadata = {
+  icon: FiCheckCircle,
+  title: "Rule Checker",
+  description: "Define and validate rules for your data",
+  type: "ruleCheckerNode" as const,
 }
 
 const operatorsByType: Record<DataType, { value: Operator; label: string }[]> = {

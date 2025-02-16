@@ -14,7 +14,7 @@ import {
 } from '../components/ui/select'
 import { Input } from '../components/ui/input'
 import { Textarea } from '../components/ui/textarea'
-import { X } from 'lucide-react'
+import { X, Database } from 'lucide-react'
 
 export type DataType = 'Text' | 'Number' | 'List' | 'Boolean' | 'Collection'
 
@@ -29,6 +29,13 @@ export interface IDataNode extends Node {
 export const dataNodeDefaultData = {
   dataType: 'Text' as DataType,
   value: ''
+}
+
+export const dataNodeMetadata = {
+  icon: Database,
+  title: "Data",
+  description: "Define a variable with different data types",
+  type: "dataNode" as const,
 }
 
 export default function DataNode({ id, data }: NodeProps<IDataNode>) {

@@ -3,6 +3,7 @@ import useStore from "../store";
 import { Input } from "../components/ui/input";
 import NodeCard from "../components/NodeCard";
 import InputHandle from "@/components/InputHandle";
+import { FiArrowUp } from 'react-icons/fi'
 
 export type IOutputNode = Node<
   {
@@ -14,6 +15,13 @@ export type IOutputNode = Node<
 export const outputNodeDefaultData: IOutputNode["data"] = {
   outputName: "",
 };
+
+export const outputNodeMetadata = {
+  icon: FiArrowUp,
+  title: "Output",
+  description: "Output of your program",
+  type: "output" as const,
+}
 
 export default function OutputNode({ id, data }: NodeProps<IOutputNode>) {
   const updateNodeData = useStore((state) => state.updateNodeData);

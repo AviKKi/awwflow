@@ -4,22 +4,30 @@ import { Textarea } from '../components/ui/textarea'
 import InputHandle from '../components/InputHandle'
 import OutputHandle from '../components/OutputHandle'
 import useStore from '../store'
+import { StickyNote } from 'lucide-react'
 
-export interface INotesNode extends Node {
-  type: 'notesNode'
-  data: {
+export type INotesNode = Node<
+  {
     text: string
     isEditing: boolean
     width?: number
     height?: number
-  }
-}
+  },
+  "notesNode"
+>
 
 export const notesNodeDefaultData = {
   text: 'Double click to edit',
   isEditing: false,
   width: 200,
   height: 150
+}
+
+export const notesNodeMetadata = {
+  icon: StickyNote,
+  title: "Notes",
+  description: "Add resizable notes to your workflow",
+  type: "notesNode" as const,
 }
 
 function NotesNode({ id, data, selected }: NodeProps<INotesNode>) {

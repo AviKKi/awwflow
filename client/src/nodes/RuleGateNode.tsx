@@ -21,6 +21,13 @@ export const ruleGateNodeDefaultData = {
   height: 400
 }
 
+export const ruleGateNodeMetadata = {
+  icon: LucideToggleLeft,
+  title: "Rule Gate",
+  description: "Controls whether the blocks inside it are active or disabled based on a condition",
+  type: "ruleGateNode" as const,
+}
+
 export function RuleGateNode({ id, data, type }: NodeProps<IRuleGateNode>) {
   const updateNodeData = useStore((state) => state.updateNodeData)
   const [isDropTarget, setIsDropTarget] = useState(false)
