@@ -14,7 +14,7 @@ Drag and Drop AI Tool maker
     - Conditional Nodes
         - [ ] A Switch node like blender, to switch the inputs based on some logic
             - [ ] if we reverse logic from 2 to 1, to 1 to 2, we can use this to disable a node
-        - [ ] A Conditional Parent node, that takes in a boolean and disables the Node execution if bool is false
+        - [x] A Conditional Parent node, that takes in a boolean and disables the Node execution if bool is false
     - File Reader Node
         - [x] PDF Read
         - [x] TXT Read
@@ -33,6 +33,11 @@ Drag and Drop AI Tool maker
         - 
     - Tool Node
         - A group of two node, one for feeding tooldefination into the LLM and one for taking tool defination and executing the action
+    - [ ] Node management
+        - [ ] Group Nodes
+        - [ ] Minimize Nodes, minimize nodes into small small squares with just icons and input output labels, like n8n maybe
+        - [ ] Re-Route Node inspired from comfyui, one-to-one and one-to-many re-routing logic
+        - [ ] Add support for Group and Nested Group, with minimize group option
 - NodeJS engine
 
 ### RoadMap
