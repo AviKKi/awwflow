@@ -8,6 +8,7 @@ import dataNode from './DataNode.code'
 import notesNode from './NotesNode.code'
 import ruleChecker from './RuleCheckerNode.code'
 import ruleGateNode from './RuleGateNode.code'
+import wireClipNode from './WireClipNode.code'
 
 const nodeImplementations = {
     input,
@@ -19,7 +20,8 @@ const nodeImplementations = {
     dataNode,
     notesNode,
     ruleCheckerNode: ruleChecker,
-    ruleGateNode
+    ruleGateNode,
+    wireClipNode
 }
 
 export default nodeImplementations

@@ -15,6 +15,7 @@ import { RuleGateNode, IRuleGateNode, ruleGateNodeDefaultData, ruleGateNodeMetad
 import { FiArrowUp, FiType, FiFile, FiCheckCircle } from 'react-icons/fi'
 import { RxMagicWand } from 'react-icons/rx'
 import { TextQuote, Database, StickyNote, ToggleLeft } from 'lucide-react'
+import WireClipNode, { IWireClipNode, wireClipNodeDefaultData, wireClipNodeMetadata } from './WireClipNode'
 
 export type AppNode =
   | IColorInputNode
@@ -30,6 +31,7 @@ export type AppNode =
   | INotesNode
   | IRuleCheckerNode
   | IRuleGateNode
+  | IWireClipNode
 
 export const NodeDefaultValues = {
     input: inputNodeDefaultData,
@@ -41,7 +43,8 @@ export const NodeDefaultValues = {
     dataNode: dataNodeDefaultData,
     notesNode: notesNodeDefaultData,
     ruleCheckerNode: ruleCheckerNodeDefaultData,
-    ruleGateNode: ruleGateNodeDefaultData
+    ruleGateNode: ruleGateNodeDefaultData,
+    wireClipNode: wireClipNodeDefaultData
 } as const
 
 export const NodeTypes = {
@@ -56,7 +59,8 @@ export const NodeTypes = {
     dataNode: DataNode,
     notesNode: NotesNode,
     ruleCheckerNode: RuleCheckerNode,
-    ruleGateNode: RuleGateNode
+    ruleGateNode: RuleGateNode,
+    wireClipNode: WireClipNode,
 }
 
 /** Node metadata for AddNodeButton and other UI components */
@@ -71,6 +75,7 @@ export const nodesMetadata = [
   notesNodeMetadata,
   ruleCheckerNodeMetadata,
   ruleGateNodeMetadata,
+  wireClipNodeMetadata,
 ] as const
 
 /** mapping from nodeType to human readable node names, computed from metadata */
