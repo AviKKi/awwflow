@@ -14,6 +14,7 @@ import { Badge } from "../components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../components/ui/table";
 import { stat } from "fs";
 import { NodeTypeToNodeName } from "@/nodes";
+import runDAG from "./runDAG";
 
 function OutputModal({ onClose }: { onClose: () => void }) {
   const status = useExecutionStore((state) => state.status);
@@ -74,7 +75,7 @@ function OutputModal({ onClose }: { onClose: () => void }) {
               return (
                 <TableRow key={id}>
                   <TableCell>{(node?.type&&NodeTypeToNodeName[node?.type]) || node?.type || 'Unknown'}</TableCell>
-                  <TableCell>{output}</TableCell>
+                  <TableCell>{String(output)}</TableCell>
                 </TableRow>
               )
             })}
@@ -93,7 +94,7 @@ export default function RunButton() {
   const showOutputButton = !(status === 'IDLE' && Object.entries(nodeOutputs).length === 0)
   function handleRun(){
     reset()
-    run()
+    runDAG()
     setShowOutput(true)
   }
   return (
