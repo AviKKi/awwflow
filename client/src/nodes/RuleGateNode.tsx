@@ -63,7 +63,7 @@ export function RuleGateNode({ id, data, type }: NodeProps<IRuleGateNode>) {
           description="Controls execution of child nodes based on condition"
         >
           <InputHandle 
-            id="condition" 
+            id="isEnabled" 
             label="Rule Condition"
           >
             <Switch
