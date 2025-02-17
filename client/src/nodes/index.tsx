@@ -16,6 +16,7 @@ import { FiArrowUp, FiType, FiFile, FiCheckCircle } from 'react-icons/fi'
 import { RxMagicWand } from 'react-icons/rx'
 import { TextQuote, Database, StickyNote, ToggleLeft } from 'lucide-react'
 import WireClipNode, { IWireClipNode, wireClipNodeDefaultData, wireClipNodeMetadata } from './WireClipNode'
+import SumDiffNode, { ISumDiffNode, sumDiffNodeDefaultData, sumDiffNodeMetadata } from './SumDiffNode'
 
 export type AppNode =
   | IColorInputNode
@@ -32,6 +33,7 @@ export type AppNode =
   | IRuleCheckerNode
   | IRuleGateNode
   | IWireClipNode
+  | ISumDiffNode
 
 export const NodeDefaultValues = {
     input: inputNodeDefaultData,
@@ -44,7 +46,8 @@ export const NodeDefaultValues = {
     notesNode: notesNodeDefaultData,
     ruleCheckerNode: ruleCheckerNodeDefaultData,
     ruleGateNode: ruleGateNodeDefaultData,
-    wireClipNode: wireClipNodeDefaultData
+    wireClipNode: wireClipNodeDefaultData,
+    sumDiffNode: sumDiffNodeDefaultData
 } as const
 
 export const NodeTypes = {
@@ -61,6 +64,7 @@ export const NodeTypes = {
     ruleCheckerNode: RuleCheckerNode,
     ruleGateNode: RuleGateNode,
     wireClipNode: WireClipNode,
+    sumDiffNode: SumDiffNode,
 }
 
 /** Node metadata for AddNodeButton and other UI components */
@@ -76,12 +80,21 @@ export const nodesMetadata = [
   ruleCheckerNodeMetadata,
   ruleGateNodeMetadata,
   wireClipNodeMetadata,
+  sumDiffNodeMetadata
 ] as const
 
 /** mapping from nodeType to human readable node names, computed from metadata */
-export const NodeTypeToNodeName: Record<string, string> = Object.fromEntries(
-  nodesMetadata.map(meta => [meta.type, meta.title])
-)
+export const NodeTypeToNodeName = {
+  inputNode: 'Input',
+  outputNode: 'Output',
+  textTemplateNode: 'Text Template',
+  textReplaceNode: 'Text Replace',
+  promptLLMNode: 'Prompt LLM',
+  ruleCheckerNode: 'Rule Checker',
+  ruleGateNode: 'Rule Gate',
+  wireClipNode: 'Wire Clip',
+  sumDiffNode: 'Sum & Difference'
+} as const
 
 export interface NodeMetadata {
   icon: React.ComponentType

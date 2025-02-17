@@ -9,6 +9,7 @@ import notesNode from './NotesNode.code'
 import ruleChecker from './RuleCheckerNode.code'
 import ruleGateNode from './RuleGateNode.code'
 import wireClipNode from './WireClipNode.code'
+import sumDiffNode from './SumDiffNode.code'
 
 const nodeImplementations = {
     input,
@@ -21,7 +22,8 @@ const nodeImplementations = {
     notesNode,
     ruleCheckerNode: ruleChecker,
     ruleGateNode,
-    wireClipNode
+    wireClipNode,
+    sumDiffNode
 }
 
 export default nodeImplementations

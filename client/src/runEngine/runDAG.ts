@@ -195,9 +195,12 @@ async function executeNode(
       throw new Error('Edges without targetHandle are not supported')
     }
 
-    const sourceOutput = outputDict[edge.source]
+    let sourceOutput = outputDict[edge.source]
+    if(edge.sourceHandle){
+      sourceOutput = sourceOutput[edge.sourceHandle]
+    }
     const dataPath = (edge.data as any)?.path
-    debugger;
+
     if (dataPath) {
       setNestedValue(inflowData, dataPath, sourceOutput)
     } else {
