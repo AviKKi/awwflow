@@ -108,8 +108,12 @@ const useStore = create<AppStore>((set, get) => ({
   },
 
   onEdgesChange: (changes) => {
+    const updatedEdges = applyEdgeChanges(changes, get().edges).map(edge => ({
+      ...edge,
+      type: 'smoothstep',
+    }))
     set({
-      edges: applyEdgeChanges(changes, get().edges),
+      edges: updatedEdges,
     });
   },
   onConnect: (connection) => {
@@ -123,6 +127,7 @@ const useStore = create<AppStore>((set, get) => ({
       edges: addEdge(
         {
           ...connection,
+          type: 'smoothstep',
           data: dataPath ? { path: dataPath } : undefined
         },
         get().edges
